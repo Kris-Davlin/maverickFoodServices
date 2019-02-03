@@ -1,0 +1,117 @@
+﻿{% block content %}
+{% load mathfilters %}
+{% load humanize %}
+
+<div class="row">
+    <h1 style="padding-left: 15Px">Customer Summary</h1>
+</div>
+<div class="row">
+    <table border="0" align="center" cellpadding="5" cellspacing="0" style="font-family:arial,helvetica,sans-serif;">
+        <tbody>
+        <thead>
+            <tr class="bg-info">
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Customer Total</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color:#f0dfdb;border:1px solid #060606;">{{ sum_service_charge.service_charge__sum | addition:sum_product_charge.charge__sum|intcomma}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <h1 style="padding-left: 15Px">Services Information</h1>
+</div>
+<div class="row">
+    <table border="0" align="center" cellpadding="5" cellspacing="0" style="font-family:arial,helvetica,sans-serif;">
+        <tbody>
+        <thead>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Customer</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Service Category</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Description</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Location</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>SetUp Time</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>CleanUp Time</strong></td>
+        <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Service Charge</strong></td>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.cust_name }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.service_category }}</td>
+                <td style="background-color:#f0dfdb;border:1px solid #060606;">{{ service.description }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.location }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.setup_time }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.cleanup_time }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ service.service_charge }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <table border="0" align="center" cellpadding="5" cellspacing="0" style="font-family:arial,helvetica,sans-serif;">
+        <tbody><tr>
+        <thead>
+            <tr class="bg-info">
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Total of Service Charge</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color:#f0dfdb;border:1px solid #060606;">{{ sum_service_charge.service_charge__sum|intcomma }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <h1 style="padding-left: 15Px">Product Information</h1>
+</div>
+<div class="row">
+    <table border="0" align="center" cellpadding="5" cellspacing="0" style="font-family:arial,helvetica,sans-serif;">
+        <tbody>
+        <thead>
+            <tr class="bg-info">
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Product</strong></td>
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Description</strong></td>
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Quantity</strong></td>
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Pickup Time</strong></td>
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Total Charge</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ product.product }}</td>
+                <td style="background-color:#f0dfdb;border:1px solid #060606;">{{ product.product_description }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ product.quantity|intcomma }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ product.pickup_time }}</td>
+                <td style="text-align:center;background-color:#f0dfdb;border:1px solid #060606;">{{ product.charge|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <table border="0" align="center" cellpadding="5" cellspacing="0" style="font-family:arial,helvetica,sans-serif;">
+        <tbody><tr>
+        <thead>
+            <tr class="bg-info">
+                <td style="text-align:center;background-color:#c7ebff;border:1px solid #060606;"><strong>Total of Product Charges</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color:#f0dfdb;border:1px solid #060606;">{{ sum_product_charge.charge__sum|intcomma }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
