@@ -25,7 +25,7 @@ SECRET_KEY = 'obi@+4+rdq3q591ykqg#tr()5_j@q@9)@26v&9yy7xl4bt5@uz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kdavlin.pythonanywhere.com']
 
 
 # Application definition
