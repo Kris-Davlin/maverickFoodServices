@@ -25,7 +25,7 @@ SECRET_KEY = 'obi@+4+rdq3q591ykqg#tr()5_j@q@9)@26v&9yy7xl4bt5@uz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kdavlin.pythonanywhere.com']
+ALLOWED_HOSTS = ['kdavlin.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -132,3 +132,9 @@ PATH_PROJECT = os.path.realpath(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
     PATH_PROJECT + '/templates/crm',
 )
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'djangoclasstestemail@gmail.com'
+EMAIL_HOST_PASSWORD = '123weakpass'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

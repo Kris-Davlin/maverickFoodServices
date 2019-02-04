@@ -144,13 +144,18 @@ def summary(request, pk):
     customers = Customer.objects.filter(created_date__lte=timezone.now())
     services = Service.objects.filter(cust_name=pk)
     products = Product.objects.filter(cust_name=pk)
+    customer_name = customer.cust_name
     sum_service_charge = Service.objects.filter(cust_name=pk).aggregate(Sum('service_charge'))
     sum_product_charge = Product.objects.filter(cust_name=pk).aggregate(Sum('charge'))
+
+
+
     return render(request, 'crm/summary.html', {'customers': customers,
                                                     'products': products,
                                                     'services': services,
                                                     'sum_service_charge': sum_service_charge,
-                                                    'sum_product_charge': sum_product_charge,})
+                                                    'sum_product_charge': sum_product_charge,
+													'customer_name': customer_name,})
 
 @login_required
 def summary_pdf(request, pk):
@@ -158,20 +163,22 @@ def summary_pdf(request, pk):
     customers = Customer.objects.filter(created_date__lte=timezone.now())
     services = Service.objects.filter(cust_name=pk)
     products = Product.objects.filter(cust_name=pk)
+    customer_name = customer.cust_name
     sum_service_charge = Service.objects.filter(cust_name=pk).aggregate(Sum('service_charge'))
     sum_product_charge = Product.objects.filter(cust_name=pk).aggregate(Sum('charge'))
     template = get_template('summary_pdf.html')
     context = {'customers': customers,
-                                                    'products': products,
-                                                    'services': services,
-                                                    'sum_service_charge': sum_service_charge,
-                                                    'sum_product_charge': sum_product_charge,}
+			   'products': products,
+               'services': services,
+               'sum_service_charge': sum_service_charge,
+               'sum_product_charge': sum_product_charge,
+			   'customer_name': customer_name,}
     html = template.render(context)
     pdf = render_to_pdf('summary_pdf.html', context)
-
+    subject = "Summary Report for user " + customer_name
+    message = "Attached is the pdf summary report for user " + customer_name
 	#email pdf to the superusers email address.
-    #email = EmailMessage('Summary Report for user ', 'Attached is the pdf summary report for user: ', 'MavFoodServices@gmail.com', [request.user.get_username()])
-    #email.attach_file(pdf)
-    #email.send()
-
-    return HttpResponse(pdf, content_type='application/pdf')
+    email = EmailMessage(subject, message, 'djangoclasstestemail@gmail.com', ['kldavlin@gmail.com'])
+    email.attach("summary " + customer_name + ".pdf", pdf.getvalue() , 'application/pdf')
+    email.send()
+    return redirect('crm:customer_list')

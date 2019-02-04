@@ -73,6 +73,11 @@
                     <td>
                         <a href="{% url 'crm:summary' pk=customer.pk %}"
                            class="btn btn-primary">Summary</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'crm:summary_pdf' pk=customer.pk %}"
+                           class="btn btn-primary">Send Via Email</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
