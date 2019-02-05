@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
 from io import BytesIO
+from django.contrib.auth.models import User
 
 now = timezone.now()
 def home(request):
@@ -177,8 +178,11 @@ def summary_pdf(request, pk):
     pdf = render_to_pdf('summary_pdf.html', context)
     subject = "Summary Report for user " + customer_name
     message = "Attached is the pdf summary report for user " + customer_name
+
+    email_string_list = User.objects.filter(is_superuser=True).values_list('email',flat=True)
 	#email pdf to the superusers email address.
-    email = EmailMessage(subject, message, 'djangoclasstestemail@gmail.com', ['kldavlin@gmail.com'])
-    email.attach("summary " + customer_name + ".pdf", pdf.getvalue() , 'application/pdf')
-    email.send()
+    for emailAddress in email_string_list:
+        email = EmailMessage(subject, message, 'djangoclasstestemail@gmail.com', [emailAddress])
+        email.attach("summary " + customer_name + ".pdf", pdf.getvalue() , 'application/pdf')
+        email.send()
     return redirect('crm:customer_list')
